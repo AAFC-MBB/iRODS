@@ -1,0 +1,33 @@
+---
+
+- name: Install packages for PAM and Kerberos
+  shell: DEBIAN_FRONTEND=noninteractive apt-get -y install libcurl4-gnutls-dev krb5-admin-server libpam-krb5
+
+- name: Copy krb5.conf
+  copy: src=krb5.conf dest=/etc/krb5.conf
+
+- name: Copy PAM common files
+  copy: src={{ item }} dest=/etc/pam.d/
+  with_items:
+    - common-account
+    - common-auth
+    - common-password
+    - common-session
+
+- name: Create /opt/irods directory
+  file: path=/opt/irods state=directory
+
+- name: Copy PAM setup script
+  copy: src=pam.sh dest=/opt/irods/pam.sh
+
+- name: Make files in /opt/irods executable
+  shell: chmod a+x /opt/irods/*.sh
+
+- name: Copy cert.cfg
+  copy: src=cert.cfg dest=/etc/irods/cert.cfg
+
+- name: Execute PAM setup script
+  script: pam.sh
+
+- name: Configure irods_environment.json to use PAM
+  command: sed 's@\("irods_host"\)@"irods_authentication_scheme"{{':'}} "PAM","irods_ssl_ca_certificate_file"{{':'}} "/etc/irods/chain.pem","irods_ssl_certificate_chain_file"{{':'}} "/etc/irods/chain.pem","irods_ssl_certificate_key_file"{{':'}} "/etc/irods/server.key","irods_ssl_dh_params_file"{{':'}} "/etc/irods/dhparams.pem","irods_ssl_certificate_ca_file"{{':'}} "/etc/irods/chain.pem","irods_ssl_verify_server"{{':'}} "cert",\1@' -i /var/lib/irods/.irods/irods_environment.json

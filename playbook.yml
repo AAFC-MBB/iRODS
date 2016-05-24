@@ -9,7 +9,7 @@
    - role: common  
 
 # Install PostgreSQL
-- hosts: servers
+- hosts: masters
   sudo: yes
   vars:
     cloud: true
@@ -51,3 +51,11 @@
     - role: init
     - role: replica
     - role: idrob2
+
+# set up PAM for authentication
+- hosts: masters
+  sudo: yes
+  vars:
+    cloud: true
+  roles:
+    - role: auth
