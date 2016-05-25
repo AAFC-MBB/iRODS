@@ -4,7 +4,5 @@
         Allow from all
   </Proxy>
 
-  ProxyRequests           Off
-  ProxyPass               /       ajp://{{ ansible_ssh_host }}:8009/
-  ProxyPassReverse        /       ajp://{{ ansible_ssh_host }}:8009/
+  ProxyPassMatch               /irods-cloud-backend/(.*)       ajp://localhost:8009/irods-cloud-backend/$1
 </VirtualHost>

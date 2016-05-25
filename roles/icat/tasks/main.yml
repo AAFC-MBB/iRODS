@@ -25,4 +25,8 @@
   shell: pip install -U pip jsonschema jinja2
 
 - name: config iCAT server
-  shell: /var/lib/irods/packaging/setup_irods.sh < /opt/irods/setup_responses
+  shell: "{{ item }}"
+  with_items:
+    - ret=false
+    - getent passwd {{ account_user }} irods >/dev/null 2>&1 && ret=true
+    - if $ret; then tail -n +3 "/opt/irods/setup_responses" | /var/lib/irods/packaging/setup_irods.sh; else /var/lib/irods/packaging/setup_irods.sh < /opt/irods/setup_responses; fi

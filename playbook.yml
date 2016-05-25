@@ -33,7 +33,7 @@
   roles:
    - role: icat
 
-# install Resources
+# Install resources
 - hosts: slaves
   sudo: yes
   vars:
@@ -41,13 +41,20 @@
   roles:
    - role: resources
 
-# initialize iCAT & iRODS replica & Cloud Browser
+# Initialize iRODS replica
+- hosts: masters
+  sudo: yes
+  sudo_user: irods
+  vars:
+    cloud: true
+  roles:
+    - role: replica
+
+# Setup PAM authentication and Cloud Browser
 - hosts: masters
   sudo: yes
   vars:
     cloud: true
   roles:
-    - role: init
-    - role: replica
     - role: auth
     - role: cloud-browser
