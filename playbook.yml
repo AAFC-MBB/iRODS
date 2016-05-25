@@ -26,7 +26,6 @@
    - include: roles/common/tasks/db.yml
 
 # Install iCAT
-
 - hosts: masters
   sudo: yes
   vars:
@@ -42,7 +41,7 @@
   roles:
    - role: resources
 
-# initialize iCAT & iRODS replica & iDROP2
+# initialize iCAT & iRODS replica & Cloud Browser
 - hosts: masters
   sudo: yes
   vars:
@@ -50,12 +49,5 @@
   roles:
     - role: init
     - role: replica
-    - role: idrob2
-
-# set up PAM for authentication
-- hosts: masters
-  sudo: yes
-  vars:
-    cloud: true
-  roles:
     - role: auth
+    - role: cloud-browser

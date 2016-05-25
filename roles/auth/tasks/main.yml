@@ -1,7 +1,12 @@
 ---
 
 - name: Install packages for PAM and Kerberos
-  shell: DEBIAN_FRONTEND=noninteractive apt-get -y install libcurl4-gnutls-dev krb5-admin-server libpam-krb5
+#  shell: DEBIAN_FRONTEND=noninteractive apt-get -y install libcurl4-gnutls-dev krb5-admin-server libpam-krb5
+  apt: name={{ item }} force=yes
+  with_items:
+    - libcurl4-gnutls-dev
+    - krb5-admin-server
+    - libpam-krb5
 
 - name: Copy krb5.conf
   copy: src=krb5.conf dest=/etc/krb5.conf
