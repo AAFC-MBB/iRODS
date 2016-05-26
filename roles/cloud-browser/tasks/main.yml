@@ -45,4 +45,4 @@
   shell: echo "ServerName {{ dns }}" | sudo tee /etc/apache2/conf-available/fqdn.con; sudo a2enconf fqdn
 
 - name: Start cloud-browser 
-  command: service apache2 restart;
+  service: name=apache2 state=restarted
