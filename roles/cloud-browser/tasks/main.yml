@@ -10,8 +10,11 @@
 - name: Remove Tomcat webapps ROOT
   command: rm -rf /var/lib/tomcat7/webapps/ROOT*
 
-#- name: Configure Tomcat server 
-#  copy: src=server.xml dest=/etc/tomcat7/server.xml
+- name: Configure Tomcat server 
+  copy: src=server.xml dest=/etc/tomcat7/server.xml
+
+- name: Restart Tomcat
+  service: name=tomcat7 state=restarted
 
 - name: Copy configuration file
   template: src=irods-cloud-backend-config.groovy.j2 dest=/etc/irods-cloud-backend-config.groovy
@@ -31,15 +34,14 @@
 - name: Configure frontend to the deployed backend container
   shell: sed -i "s/location.hostname+\":8080\/irods-cloud-backend/\"{{ ansible_ssh_host }}\"+\":8080/g" /var/www/html/app/components/globals.js
 
-#- name: Copy AJP Apache conf
-#  template: src=ajp.apache.j2 dest=/etc/apache2/sites-available/ajp.apache
+- name: Copy AJP Apache conf
+  template: src=ajp.apache.j2 dest=/etc/apache2/sites-available/ajp.apache.conf
 
-#- name: Reload Apache configuration
-#  shell:
-#    a2enmod proxy_ajp;
-#    a2dissite 000-default;
-#    a2ensite ajp.apache;
-#    service apache2 reload
+- name: Reload Apache configuration
+  shell:
+    a2enmod proxy_ajp;
+    a2ensite ajp.apache;
+    service apache2 reload
 
 - name: Set ServerName for Apache
   shell: echo "ServerName {{ dns }}" | sudo tee /etc/apache2/conf-available/fqdn.con; sudo a2enconf fqdn
