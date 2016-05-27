@@ -1,6 +1,6 @@
 ---
 - name: download resources package
-  get_url: url={{ irods_resources }} dest=/home/{{ ansible_ssh_user }}/
+  command: wget -P=/home/{{ ansible_ssh_user }}/ {{ irods_resources }} 
 
 - name: Install Resources Service
   shell: dpkg -i /home/{{ ansible_ssh_user }}/{{ resources_pkg }} ;  apt-get -y -f install

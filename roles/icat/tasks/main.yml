@@ -1,20 +1,20 @@
 ---
 
-- name: download iCAT
-  get_url: url={{ irods_icat }} dest=/home/{{ ansible_ssh_user }}/
+- name: Download iCAT
+  command: wget -P /home/{{ ansible_ssh_user }}/ {{ irods_icat }} 
 
-- name: download iRODS postgreSQL plugin
-  get_url: url={{ irods_postgre }} dest=/home/{{ ansible_ssh_user }}/
+- name: Download iRODS postgreSQL plugin
+  command: wget -P /home/{{ ansible_ssh_user }}/ {{ irods_postgre }} 
 
 - name: Install iCAT and Database Plugins
   shell: 
      dpkg -i /home/{{ ansible_ssh_user }}/{{ icat_pkg }} /home/{{ ansible_ssh_user }}/{{ postgre_pkg }};
      apt-get -y -f install
 
-- name: response bootstrapping
+- name: Response bootstrapping
   template: src=genresponse.j2 dest=/home/{{ ansible_ssh_user }}/genresponse.sh
 
-- name: generate setup responses
+- name: Generate setup responses
   shell: 
      mkdir -p /opt/irods;
      mv /home/{{ ansible_ssh_user }}/genresponse.sh /opt/irods/genresponse.sh;
@@ -24,9 +24,8 @@
 - name: Install python packages
   shell: pip install -U pip jsonschema jinja2
 
-- name: config iCAT server
-  shell: "{{ item }}"
-  with_items:
-    - ret=false
-    - getent passwd {{ account_user }} irods >/dev/null 2>&1 && ret=true
-    - if $ret; then tail -n +3 "/opt/irods/setup_responses" | /var/lib/irods/packaging/setup_irods.sh; else /var/lib/irods/packaging/setup_irods.sh < /opt/irods/setup_responses; fi
+- name: Config iCAT server
+  shell:
+    ret=false;
+    getent passwd {{ account_user }} irods >/dev/null 2>&1 && ret=true;
+    if $ret; then tail -n +3 "/opt/irods/setup_responses" | /var/lib/irods/packaging/setup_irods.sh; else /var/lib/irods/packaging/setup_irods.sh < /opt/irods/setup_responses; fi

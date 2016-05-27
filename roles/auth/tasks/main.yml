@@ -1,7 +1,6 @@
 ---
 
 - name: Install packages for PAM and Kerberos
-#  shell: DEBIAN_FRONTEND=noninteractive apt-get -y install libcurl4-gnutls-dev krb5-admin-server libpam-krb5
   apt: name={{ item }} force=yes
   with_items:
     - libcurl4-gnutls-dev
@@ -26,7 +25,7 @@
   copy: src=pam.sh dest=/opt/irods/pam.sh
 
 - name: Make files in /opt/irods executable
-  shell: chmod a+x /opt/irods/*.sh
+  file: path=/opt/irods/ mode=a+x
 
 - name: Copy cert.cfg
   copy: src=cert.cfg dest=/etc/irods/cert.cfg

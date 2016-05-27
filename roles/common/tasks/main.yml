@@ -1,9 +1,22 @@
 ---
 - name: Install python-apt, aptitude, and debconf-utils
-  shell: apt-get update && apt-get -y install openssh-server python-apt aptitude debconf-utils python-software-properties csh python-pip python-dev wget
+  apt: name={{ item }} update_cache=yes
+  with_items:
+    - openssh-server 
+    - python-apt 
+    - aptitude 
+    - debconf-utils 
+    - python-software-properties 
+    - csh 
+    - python-pip 
+    - python-dev 
+    - wget
 
 - name: Install python packages
-  shell: pip install jsonschema jinja2
+  pip: name={{ item }}
+  with_items:
+    - jsonschema
+    - jinja2
 
 - name: Set default locale to en_US.UTF-8
   debconf: name=locales question='locales/default_environment_locale' value=en_US.UTF-8 vtype='select'

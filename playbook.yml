@@ -2,59 +2,60 @@
 # MAINTAINER Ahmed Abdullah <ahmedaabdulwahed@gmail.com>
 
 - hosts: servers
-  sudo: yes
-  vars: 
-    cloud: true
+  become: yes
+  vars:
+    cloud: yes
   roles:
-   - role: common  
+    - role: common
 
 # Install PostgreSQL
 - hosts: masters
-  sudo: yes
+  become: yes
   vars:
-    cloud: true
+    cloud: yes
   tasks:
-   - include: roles/common/tasks/postgresql.yml
+    - include: roles/icat/tasks/postgresql.yml
 
 - hosts: masters
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   gather_facts: no
   vars:
-    cloud: true
+    cloud: yes
+    ansible_ssh_pipelining: yes
   tasks:
-   - include: roles/common/tasks/db.yml
+    - include: roles/icat/tasks/db.yml
 
 # Install iCAT
 - hosts: masters
-  sudo: yes
+  become: yes
   vars:
-    cloud: true
+    cloud: yes
   roles:
-   - role: icat
+    - role: icat
 
 # Install resources
 - hosts: slaves
-  sudo: yes
+  become: yes
   vars:
-    cloud: true
+    cloud: yes
   roles:
-   - role: resources
+    - role: resources
 
 # Initialize iRODS replica
 - hosts: masters
-  sudo: yes
-  sudo_user: irods
+  become: yes
   vars:
-    cloud: true
+    cloud: yes
+    ansible_ssh_pipelining: yes
   roles:
     - role: replica
 
 # Setup PAM authentication and Cloud Browser
 - hosts: masters
-  sudo: yes
+  become: yes
   vars:
-    cloud: true
+    cloud: yes
   roles:
     - role: auth
     - role: cloud-browser

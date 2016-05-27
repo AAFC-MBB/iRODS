@@ -3,8 +3,10 @@
 - name: Configure replica
   template: src=replica.j2 dest=/home/{{ ansible_ssh_user }}/replica.sh
 
-- name: Install replica
-  shell:
-     chmod +x /home/{{ ansible_ssh_user }}/replica.sh;
-     /home/{{ ansible_ssh_user }}/replica.sh
+- name: Set replica script to be executable by all
+  file: path=/home/{{ ansible_ssh_user }}/replica.sh mode=o+x
+    
+- name: Install replicas
+  shell: /home/{{ ansible_ssh_user }}/replica.sh
   ignore_errors: yes
+  become_user: irods
