@@ -10,14 +10,14 @@
 - name: Remove Tomcat webapps ROOT
   file: path=/var/lib/tomcat7/webapps/ROOT/ state=absent
 
-#- name: Configure Tomcat server 
-#  copy: src=server.xml dest=/etc/tomcat7/server.xml
-
-#- name: Restart Tomcat
-#  service: name=tomcat7 state=restarted
+- name: Configure Tomcat server 
+  copy: src=server.xml dest=/etc/tomcat7/server.xml
 
 - name: Copy configuration file
   template: src=irods-cloud-backend-config.groovy.j2 dest=/etc/irods-cloud-backend-config.groovy
+
+- name: Restart Tomcat
+  service: name=tomcat7 state=restarted
 
 - name: Install cloud-browser
   command: wget -O /var/lib/tomcat7/webapps/ROOT.war {{ cloud_browser_pkg }}
@@ -28,23 +28,20 @@
 - name: Unzip cloud-browser frontend
   command: unzip -o -d /var/www/html irods-cloud-frontend.zip
 
-- name: Change document root of 000-default site
-  lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp='/var/www/html' line='        DocumentRoot /var/www/html/irods-cloud-frontend'
+- name: Change document root of 000-default site, set ServerName, and set ProxyPassMatch
+  lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp='/var/www/html' line="        DocumentRoot /var/www/html/irods-cloud-frontend\n        ServerName {{ dns }}\n        ProxyPassMatch /irods-cloud-backend/(.*) ajp://localhost:8009/$1"
 
 - name: Configure frontend to the deployed backend container
-  shell: sed -i "s/location.hostname+\":8080\/irods-cloud-backend/\"{{ ansible_ssh_host }}\"+\":8080/g" /var/www/html/irods-cloud-frontend/app/components/globals.js
+  shell: sed -i "s/location.hostname+\":8080/\"{{ dns }}\"+\":80/g" /var/www/html/irods-cloud-frontend/app/components/globals.js
 
 #- name: Copy AJP Apache conf
 #  template: src=ajp.apache.j2 dest=/etc/apache2/sites-available/ajp.apache.conf
 
-#- name: Reload Apache configuration
-#  shell:
-#    a2enmod proxy_ajp;
-#    a2ensite ajp.apache;
-#    service apache2 reload
+- name: Enable Apache proxy_ajp module
+  shell: a2enmod proxy_ajp;
 
-- name: Set ServerName for Apache
-  shell: echo "ServerName {{ dns }}" | sudo tee /etc/apache2/conf-available/fqdn.conf; sudo a2enconf fqdn
+#- name: Set ServerName for Apache
+#  shell: echo "ServerName {{ dns }}" | sudo tee /etc/apache2/conf-available/fqdn.conf; sudo a2enconf fqdn
 
 - name: Start cloud-browser 
   service: name=apache2 state=restarted
