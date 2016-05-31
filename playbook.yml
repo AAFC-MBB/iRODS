@@ -18,8 +18,6 @@
 
 - hosts: masters
   become: yes
-  become_user: postgres
-  gather_facts: no
   vars:
     cloud: yes
     ansible_ssh_pipelining: yes

@@ -1,6 +1,6 @@
 #!/bin/bash
 iadmin mkresc {{ replica_name }} replication
 {% for host in groups['all'] %}
-iadmin mkresc {{ host }}resource 'unixfilesystem' {{ host }}:/var/lib/irods/Vault
-iadmin addchildtoresc {{ replica_name }}  {{ host }}resource
+iadmin mkresc {{ inventory_hostname_short }}Resource 'unixfilesystem' {{ host }}:/var/lib/irods/Vault
+iadmin addchildtoresc {{ replica_name }}  {{ inventory_hostname_short }}Resource
 {% endfor %}

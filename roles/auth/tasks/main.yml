@@ -18,9 +18,6 @@
     - common-password
     - common-session
 
-- name: Create /opt/irods directory
-  file: path=/opt/irods state=directory
-
 - name: Copy PAM setup script
   copy: src=pam.sh dest=/opt/irods/pam.sh
 

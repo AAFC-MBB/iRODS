@@ -1,26 +1,23 @@
 ---
-- name: download resources package
-  command: wget -P=/home/{{ ansible_ssh_user }}/ {{ irods_resources }} 
+- name: Download resources package
+  command: wget -nc -P /home/{{ ansible_ssh_user }}/ {{ irods_resources }} 
 
-- name: Install Resources Service
+- name: Install resources package
   shell: dpkg -i /home/{{ ansible_ssh_user }}/{{ resources_pkg }} ;  apt-get -y -f install
 
-- name: response bootstrapping
+- name: Response bootstrapping
   template: src=genresponse.j2 dest=/home/{{ ansible_ssh_user }}/genresponse.sh
 
-- name: generate setup responses
+- name: Generate setup responses
   shell:
      mkdir -p /opt/irods;
      mv /home/{{ ansible_ssh_user }}/genresponse.sh /opt/irods/genresponse.sh;
      chmod +x /opt/irods/genresponse.sh;
      /opt/irods/genresponse.sh /opt/irods/setup_responses
 
-- name: Install python packages
-  shell: pip install jsonschema jinja2
-
-- name: Configure Resource Service
-  shell: "{{ item }}"
-  with_items:
-    - ret=false
-    - getent passwd "{{ account_user }}" irods >/dev/null 2>&1 && ret=true
-    - if $ret; then tail -n +3 "/opt/irods/setup_responses" | /var/lib/irods/packaging/setup_irods.sh; else /var/lib/irods/packaging/setup_irods.sh < /opt/irods/setup_responses; fi
+- name: Configure resource service
+  shell:
+    ret=false;
+    getent passwd {{ account_user }} > /dev/null 2>&1 && ret=true;
+    if $ret; then tail -n +3 /opt/irods/setup_responses | /var/lib/irods/packaging/setup_irods.sh;
+    else /var/lib/irods/packaging/setup_irods.sh < /opt/irods/setup_responses; fi
