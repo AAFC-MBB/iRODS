@@ -3,7 +3,12 @@
   command: wget -nc -P /home/{{ ansible_ssh_user }}/ {{ irods_resources }} 
 
 - name: Install resources package
-  shell: dpkg -i /home/{{ ansible_ssh_user }}/{{ resources_pkg }} ;  apt-get -y -f install
+  shell: 
+    problem=$(dpkg -s irods-resource | grep installed);
+    if [ "" == "$problem" ]; then
+        dpkg -i /home/{{ ansible_ssh_user }}/{{ resources_pkg }};
+        apt-get -f install -y;
+    fi
 
 - name: Response bootstrapping
   template: src=genresponse.j2 dest=/home/{{ ansible_ssh_user }}/genresponse.sh

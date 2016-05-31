@@ -41,7 +41,7 @@
     - role: resources
 
 # Initialize iRODS replica
-- hosts: masters
+- hosts: replicas
   become: yes
   vars:
     cloud: yes
