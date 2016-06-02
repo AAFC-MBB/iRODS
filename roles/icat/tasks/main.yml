@@ -8,11 +8,8 @@
 
 - name: Install iCAT and Database plugins
   shell:
-    problem=$(dpkg -s irods-icat | grep installed); 
-    if [ "" == "$problem" ]; then
-        dpkg -i /home/{{ ansible_ssh_user }}/{{ icat_pkg }} /home/{{ ansible_ssh_user }}/{{ postgre_pkg }};
-        apt-get -f install -y;
-    fi
+    dpkg -i /home/{{ ansible_ssh_user }}/{{ icat_pkg }} /home/{{ ansible_ssh_user }}/{{ postgre_pkg }};
+    apt-get -f install -y;
 
 - name: Response bootstrapping
   template: src=genresponse.j2 dest=/home/{{ ansible_ssh_user }}/genresponse.sh

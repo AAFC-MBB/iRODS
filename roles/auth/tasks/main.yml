@@ -31,4 +31,4 @@
   script: pam.sh
 
 - name: Configure irods_environment.json to use PAM
-  command: sed 's@\("irods_host"\)@"irods_authentication_scheme"{{':'}} "PAM","irods_ssl_ca_certificate_file"{{':'}} "/etc/irods/chain.pem","irods_ssl_certificate_chain_file"{{':'}} "/etc/irods/chain.pem","irods_ssl_certificate_key_file"{{':'}} "/etc/irods/server.key","irods_ssl_dh_params_file"{{':'}} "/etc/irods/dhparams.pem","irods_ssl_certificate_ca_file"{{':'}} "/etc/irods/chain.pem","irods_ssl_verify_server"{{':'}} "cert",\1@' -i /var/lib/irods/.irods/irods_environment.json
+  command: sed 's@\("irods_host"\)@"irods_authentication_scheme"{{':'}} "PAM","irods_ssl_ca_certificate_file"{{':'}} "/etc/irods/chain.pem","irods_ssl_certificate_chain_file"{{':'}} "/etc/irods/chain.pem","irods_ssl_certificate_key_file"{{':'}} "/etc/irods/server.key","irods_ssl_dh_params_file"{{':'}} "/etc/irods/dhparams.pem","irods_ssl_verify_server"{{':'}} "cert",\1@' -i /var/lib/irods/.irods/irods_environment.json
