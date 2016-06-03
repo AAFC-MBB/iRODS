@@ -35,6 +35,8 @@ Edit the ``hosts`` file in the same folder of the Vagrantfile you used.
 
 ## Start Deployment
 
+*First make sure that each node can resolve its own hostname as set in the ``hosts`` file.*
+
 Run the playbook:
 
     $ ansible-playbook -i <vm_provider>/hosts playbook.yml
