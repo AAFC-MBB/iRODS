@@ -1,5 +1,5 @@
 [servers]
-master	ansible_ssh_host=192.168.0.20 ansible_ssh_user=vagrant	
+masteransible_ssh_host=192.168.0.20 ansible_ssh_user=vagrant
 slave1  ansible_ssh_host=192.168.0.21 ansible_ssh_user=vagrant  
 slave2  ansible_ssh_host=192.168.0.22 ansible_ssh_user=vagrant  
 
@@ -9,3 +9,5 @@ master  ansible_ssh_host=192.168.0.20 ansible_ssh_user=vagrant
 [slaves]
 slave1  ansible_ssh_host=192.168.0.21 ansible_ssh_user=vagrant 
 slave2  ansible_ssh_host=192.168.0.22 ansible_ssh_user=vagrant 
+
+[replicas]

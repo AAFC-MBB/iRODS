@@ -18,7 +18,7 @@
     - tomcat7 
     - apache2
 
-- name: Remove Tomcat webapps ROOT
+- name: Remove Tomcat webapps ROOT folder
   file: path=/var/lib/tomcat7/webapps/ROOT/ state=absent
 
 - name: Configure Tomcat server 
@@ -26,6 +26,13 @@
 
 - name: Copy configuration file
   template: src=irods-cloud-backend-config.groovy.j2 dest=/etc/irods-cloud-backend-config.groovy
+
+- name: Set JAVA_HOME for Tomcat
+  lineinfile:
+    dest=/etc/default/tomcat7
+    regexp="^#JAVA_HOME"
+    line="JAVA_HOME=/usr/lib/jvm/java-8-oracle"
+    backrefs=yes
 
 - name: Restart Tomcat
   service: name=tomcat7 state=restarted
@@ -57,6 +64,7 @@
 
 - name: Add generated chain.pem to Java cacerts
   command: keytool -import -storepass changeit -noprompt -file /etc/irods/chain.pem -keystore /usr/lib/jvm/java-8-oracle/jre/lib/security/cacerts
+  ignore_errors: yes
 
 - name: Start cloud-browser 
   service: name=apache2 state=restarted
