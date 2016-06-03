@@ -4,7 +4,7 @@ This readme file is showing how to start a cluster of virtual machines on AWS us
 
 ##Import vagrant box & Install AWS Vagrant
 
-First you have to install AWS vagrant plugin then import the AWS box into vagrant (please see how to install vagrant from this [readme](https://github.com/aabdulwahed/iRODS) file)
+First you have to install AWS vagrant plugin then import the AWS box into vagrant
 
     $ vagrant plugin install vagrant-aws
     $ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box 

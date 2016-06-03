@@ -1,6 +1,4 @@
-# THIS ANSIBLE PLAYBOOK FOR DEPLOYING AND INSTALLATION OF IRODS
-# MAINTAINER Ahmed Abdullah <ahmedaabdulwahed@gmail.com>
-
+# Common config
 - hosts: servers
   become: yes
   vars:
