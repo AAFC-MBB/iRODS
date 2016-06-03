@@ -1,0 +1,35 @@
+# PostgreSQL vars
+dbname: icat
+dbuser: irods
+dbpassword: 123456
+dbport: 5432
+
+# iCAT configuration
+irods_admin: rods
+irods_passwd: 123456
+icatzone: tempZone
+
+# Common resource settings
+account_user: irods
+account_group: irods
+icat_port: 1247
+port_range_begin: 20000
+port_range_end: 20199
+vault_directory: /var/lib/irods/Vault
+zone_key: N416XIciYSZ9n2_kx8CaSw0fNJPj576P
+negotiation_key: PXgWDgjd_5SS848zyfbtoqDUDCCyf79i 
+control_plane_key: 1wui5bTgMU1W9_zAi9XTpLPR5JRmEP6Q 
+control_plane_port: 1248
+schema_uri: https://schemas.irods.org/configuration
+admin_host: master
+
+# Cloud Browser configuration
+cloud_browser_port: 80
+cloud_browser_pkg: https://code.renci.org/gf/download/frsrelease/239/2717/irods-cloud-backend.war
+cloud_browser_frontend: https://code.renci.org/gf/download/frsrelease/239/2712/irods-cloud-frontend.zip
+
+# DNS or public IP address for Cloud Browser
+dns: master
+
+# Replica
+replica_name: replica1
