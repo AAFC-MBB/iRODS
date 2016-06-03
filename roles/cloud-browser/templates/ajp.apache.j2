@@ -1,7 +1,7 @@
 <IfModule mod_ssl.c>
     <VirtualHost _default_:443>
-        ServerAdmin admin@{{ dns }}
-        ServerName {{ dns }}
+        ServerAdmin admin@{{ admin_host }}
+        ServerName {{ admin_host }}
         DocumentRoot /var/www/html/irods-cloud-frontend
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
