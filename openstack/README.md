@@ -6,4 +6,4 @@ Then configure the Vagrantfile with your desired OpenStack settings.
 
 To begin deployment, in this directory run:
 
-``vagrant up --provider openstack``
+``$ vagrant up --provider openstack``
