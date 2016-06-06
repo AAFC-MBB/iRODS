@@ -31,13 +31,15 @@ Vagrantfiles have been provided in the appropriate folders for a number of VM pr
 
 ## Hosts File
 
-Edit the ``hosts`` file in the same folder of the Vagrantfile you used.
+Edit the Ansible ``hosts`` file in the folder of your chosen VM provider to set the hostnames and IP addresses of the nodes. Use the same hostnames as were used in the Vagrantfile.
 
 ## Start Deployment
 
-*First make sure that each node can resolve its own hostname as set in the ``hosts`` file.*
+First make sure that each node has its hostname set properly.
 
-Run the playbook:
+This should be done on each VM by checking the output of ``hostname`` and the contents of ``/etc/hosts`` and ``/etc/hostname``.
+
+Then run the playbook:
 
     $ ansible-playbook -i <vm_provider>/hosts playbook.yml
 
