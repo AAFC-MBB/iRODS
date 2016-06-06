@@ -23,11 +23,11 @@ Control plane key:
 
     $ openssl rand -base64 32 | sed 's,/,S,g' | sed 's,+,_,g' | cut -c 1-32
     
-Place new keys in the ``group_vars/all`` and make any other desired changes.
+Place the new keys in the ``group_vars/all`` file and make any other desired changes there.
 
 ## Create Virtual Machines
 
-Vagrantfiles have been provided in the appropriate folders for a number of VM providers. Choose one to launch your cluster with.
+Vagrantfiles have been provided in the appropriate folders for a number of VM providers. You can use one to launch your cluster with or make them any other way you prefer.
 
 ## Hosts File
 
